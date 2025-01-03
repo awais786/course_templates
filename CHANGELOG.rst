@@ -16,10 +16,10 @@ Unreleased
 
 *
 
-0.1.0 – 2025-01-03
-**********************************************
+[1.0.0] - 2025-02-01
+---------------------
 
 Added
-=====
+~~~~~
+* CourseTemplateRequested filter added which can be used to get custom course templates.
 
-* First release on PyPI.

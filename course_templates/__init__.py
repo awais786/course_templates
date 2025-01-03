@@ -1,5 +1,5 @@
 """
-Use for creating custom course templates..
+Use for creating custom course templates.
 """
 
-__version__ = '0.1.0'
+__version__ = '1.0.0'
