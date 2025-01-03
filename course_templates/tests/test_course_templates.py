@@ -21,7 +21,7 @@ class TestPipelineStepDefinition(TestCase):
         OPEN_EDX_FILTERS_CONFIG={
             "org.openedx.templates.fetch.requested.v1": {
                 "pipeline": [
-                    "openedx_filters.course_authoring.course_templates_pipeline.GithubTemplatesPipeline",
+                    "course_templates.pipeline.GithubTemplatesPipeline",
                 ],
                 "fail_silently": False,
             },
