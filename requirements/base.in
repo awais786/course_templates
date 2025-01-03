@@ -3,3 +3,5 @@
 
 setuptools
 requests
+git+https://github.com/awais786/openedx-filters.git@course-templates-filters#egg=openedx_filters
+

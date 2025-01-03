@@ -1,5 +1,5 @@
 """
-Pipeline steps for course templates.
+Pipeline steps for course templates. These will be move to some where else.
 """
 
 import requests

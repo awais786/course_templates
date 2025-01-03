@@ -4,6 +4,10 @@
 #
 #    make upgrade
 #
+asgiref==3.8.1
+    # via
+    #   -r requirements/quality.txt
+    #   django
 astroid==3.3.8
     # via
     #   -r requirements/quality.txt
@@ -70,6 +74,11 @@ distlib==0.3.9
     # via
     #   -r requirements/ci.txt
     #   virtualenv
+django==4.2.17
+    # via
+    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
+    #   -r requirements/quality.txt
+    #   openedx-filters
 docutils==0.21.2
     # via
     #   -r requirements/quality.txt
@@ -143,6 +152,8 @@ nh3==0.2.20
     # via
     #   -r requirements/quality.txt
     #   readme-renderer
+openedx-filters @ git+https://github.com/awais786/openedx-filters.git@course-templates-filters
+    # via -r requirements/quality.txt
 packaging==24.2
     # via
     #   -r requirements/ci.txt
@@ -262,6 +273,10 @@ snowballstemmer==2.2.0
     # via
     #   -r requirements/quality.txt
     #   pydocstyle
+sqlparse==0.5.3
+    # via
+    #   -r requirements/quality.txt
+    #   django
 stevedore==5.4.0
     # via
     #   -r requirements/quality.txt

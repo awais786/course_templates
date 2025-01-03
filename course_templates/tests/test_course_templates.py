@@ -1,5 +1,5 @@
 """
-Tests for authoring subdomain filters.
+Tests for pipelines.
 """
 from unittest import TestCase
 from unittest.mock import MagicMock, Mock, patch
@@ -7,34 +7,9 @@ from unittest.mock import MagicMock, Mock, patch
 from ddt import data, ddt
 from django.test import TestCase, override_settings
 
-from openedx_filters.course_authoring.course_templates_pipeline import GithubTemplatesPipeline
-from openedx_filters.course_authoring.filters import CourseTemplateRequested, LMSPageURLRequested
-from openedx_filters.filters import PipelineStep
 
-
-@ddt
-class TestCourseAuthoringFilters(TestCase):
-    """
-    Test class to verify standard behavior of the filters located in rendering views.
-    You'll find test suites for:
-
-    - LMSPageURLRequested
-    """
-
-    def test_lms_page_url_requested(self):
-        """
-        Test LMSPageURLRequested filter behavior under normal conditions.
-
-        Expected behavior:
-            - The filter should return lms page url requested.
-        """
-        url = Mock()
-        org = Mock()
-
-        url_result, org_result = LMSPageURLRequested.run_filter(url, org)
-
-        self.assertEqual(url, url_result)
-        self.assertEqual(org, org_result)
+from course_templates.pipeline import GithubTemplatesPipeline
+from openedx_filters.course_authoring.filters import CourseTemplateRequested
 
 
 class TestPipelineStepDefinition(TestCase):
@@ -100,5 +75,4 @@ class TestPipelineStepDefinition(TestCase):
             ]
 
         # Assert the expected result
-        breakpoint()
         self.assertEqual(result['source_config'], expected_result)

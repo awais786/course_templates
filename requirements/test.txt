@@ -4,6 +4,10 @@
 #
 #    make upgrade
 #
+asgiref==3.8.1
+    # via
+    #   -r requirements/base.txt
+    #   django
 certifi==2024.12.14
     # via
     #   -r requirements/base.txt
@@ -16,12 +20,19 @@ coverage[toml]==7.6.10
     # via pytest-cov
 ddt==1.7.2
     # via -r requirements/test.in
+django==4.2.17
+    # via
+    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
+    #   -r requirements/base.txt
+    #   openedx-filters
 idna==3.10
     # via
     #   -r requirements/base.txt
     #   requests
 iniconfig==2.0.0
     # via pytest
+openedx-filters @ git+https://github.com/awais786/openedx-filters.git@course-templates-filters
+    # via -r requirements/base.txt
 packaging==24.2
     # via pytest
 pluggy==1.5.0
@@ -36,6 +47,10 @@ pytest-django==4.9.0
     # via -r requirements/test.in
 requests==2.32.3
     # via -r requirements/base.txt
+sqlparse==0.5.3
+    # via
+    #   -r requirements/base.txt
+    #   django
 urllib3==2.3.0
     # via
     #   -r requirements/base.txt

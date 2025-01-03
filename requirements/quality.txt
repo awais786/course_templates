@@ -4,6 +4,10 @@
 #
 #    make upgrade
 #
+asgiref==3.8.1
+    # via
+    #   -r requirements/test.txt
+    #   django
 astroid==3.3.8
     # via
     #   pylint
@@ -35,6 +39,11 @@ ddt==1.7.2
     # via -r requirements/test.txt
 dill==0.3.9
     # via pylint
+django==4.2.17
+    # via
+    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
+    #   -r requirements/test.txt
+    #   openedx-filters
 docutils==0.21.2
     # via readme-renderer
 edx-lint==5.4.1
@@ -77,6 +86,8 @@ more-itertools==10.5.0
     #   jaraco-functools
 nh3==0.2.20
     # via readme-renderer
+openedx-filters @ git+https://github.com/awais786/openedx-filters.git@course-templates-filters
+    # via -r requirements/test.txt
 packaging==24.2
     # via
     #   -r requirements/test.txt
@@ -144,6 +155,10 @@ six==1.17.0
     # via edx-lint
 snowballstemmer==2.2.0
     # via pydocstyle
+sqlparse==0.5.3
+    # via
+    #   -r requirements/test.txt
+    #   django
 stevedore==5.4.0
     # via code-annotations
 text-unidecode==1.3

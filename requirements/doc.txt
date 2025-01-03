@@ -8,6 +8,10 @@ accessible-pygments==0.0.5
     # via pydata-sphinx-theme
 alabaster==1.0.0
     # via sphinx
+asgiref==3.8.1
+    # via
+    #   -r requirements/test.txt
+    #   django
 babel==2.16.0
     # via
     #   pydata-sphinx-theme
@@ -32,6 +36,11 @@ coverage[toml]==7.6.10
     #   pytest-cov
 ddt==1.7.2
     # via -r requirements/test.txt
+django==4.2.17
+    # via
+    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
+    #   -r requirements/test.txt
+    #   openedx-filters
 doc8==1.1.2
     # via -r requirements/doc.in
 docutils==0.21.2
@@ -75,6 +84,8 @@ more-itertools==10.5.0
     #   jaraco-functools
 nh3==0.2.20
     # via readme-renderer
+openedx-filters @ git+https://github.com/awais786/openedx-filters.git@course-templates-filters
+    # via -r requirements/test.txt
 packaging==24.2
     # via
     #   -r requirements/test.txt
@@ -150,6 +161,10 @@ sphinxcontrib-qthelp==2.0.0
     # via sphinx
 sphinxcontrib-serializinghtml==2.0.0
     # via sphinx
+sqlparse==0.5.3
+    # via
+    #   -r requirements/test.txt
+    #   django
 stevedore==5.4.0
     # via doc8
 twine==6.0.1
