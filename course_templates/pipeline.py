@@ -42,7 +42,21 @@ class GithubTemplatesPipeline(PipelineStep):
                 return {"error": "Source URL not provided", "status": 400}
 
             response = requests.get(source_url, headers=headers)
-            return response.json()
+            if response.status_code == 200:
+                if response.content.strip():  # Ensure the response content is not empty
+                    try:
+                        data = response.json()  # Attempt to parse JSON
+                        if data:  # Check if the JSON is not empty
+                            active_courses = [course for course in data if course['metadata'].get('active')]
+                            return active_courses
+                        else:
+                            return []
+                    except ValueError as e:
+                        raise ValueError(f"Failed to parse JSON: {e}")
+                else:
+                    return []
+            else:
+                raise Exception(f"Failed to fetch from URL. Status code: {response.status_code}")
 
         except Exception as err:
-            return {"error": f"Error fetching raw data: {err}", "status": 500}
+            return {"error": f"Error fetching: {err}", "status": 500}
