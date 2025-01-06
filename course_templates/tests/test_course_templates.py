@@ -133,3 +133,52 @@ class TestPipelineStepDefinition(TestCase):
             **{'source_config': "https://404.json"}
         )
         self.assertEqual(result['source_config']['error'], "Error fetching: Failed to fetch from URL. Status code: 404")
+
+    @patch('course_templates.pipeline.requests.get')
+    def test_github_template_fetch_inactive_templates(self, mock_get):
+        """
+        Test filtering of inactive templates from GitHub.
+
+        Ensures that only templates with `active` set to `True` are included
+        in the result after processing a valid JSON response.
+        """
+        expected_result = b"""[
+                           {
+                               "courses_name": "AI Courses",
+                               "zip_url": "https://course.2jyd4n_5.tar.gz",
+                               "metadata": {
+                                   "title": "Introduction to Open edX",
+                                   "description": "Learn the fundamentals of the Open edX platform, including how to create and manage courses.",
+                                   "thumbnail": "https://discover.ilmx.org/wp-content/uploads/2024/01/Course-image-2.webp",
+                                   "active": false
+                               }
+                           },
+                           {
+                               "courses_name": "Digital Marketing",
+                               "zip_url": "https://course.2jyd4n_5.tar.gz",
+                               "metadata": {
+                                   "title": "Introduction to Open edX",
+                                   "description": "Learn the fundamentals of the Open edX platform, including how to create and manage courses.",
+                                   "thumbnail": "https://discover.ilmx.org/wp-content/uploads/2024/08/Screenshot-2024-08-22-at-4.38.09-PM.png",
+                                   "active": true
+                               }
+                           }
+               ]"""
+
+        decoded_result = expected_result.decode('utf-8')
+        parsed_json = json.loads(decoded_result)
+        mock_response = Mock()
+        mock_response.status_code = 200
+        mock_response.content = expected_result
+        mock_response.json.return_value = parsed_json
+
+        mock_get.return_value = mock_response
+
+        result = CourseTemplateRequested.run_filter(
+            source_type="github",
+            **{'source_config': "https://edly_courses.json"}
+        )
+
+        # Assert the expected result
+        self.assertEqual(result['source_config'][0], parsed_json[1])
+        self.assertEqual(len(result['source_config']), 1)
