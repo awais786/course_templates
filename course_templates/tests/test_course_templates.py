@@ -1,36 +1,38 @@
 """
-Tests for pipelines.
+Tests for pipelines in the `course_templates` module.
+These tests verify the behavior of the `GithubTemplatesPipeline` and its interaction
+with the `CourseTemplateRequested` filter.
 """
-from unittest import TestCase
+import json
 from unittest.mock import MagicMock, Mock, patch
 
 from ddt import data, ddt
 from django.test import TestCase, override_settings
-import json
+from openedx_filters.course_authoring.filters import CourseTemplateRequested
 
 from course_templates.pipeline import GithubTemplatesPipeline
-from openedx_filters.course_authoring.filters import CourseTemplateRequested
-from unittest.mock import patch
+
 
 @override_settings(
-        OPEN_EDX_FILTERS_CONFIG={
-            "org.openedx.templates.fetch.requested.v1": {
-                "pipeline": [
-                    "course_templates.pipeline.GithubTemplatesPipeline",
-                ],
-                "fail_silently": False,
-            },
+    OPEN_EDX_FILTERS_CONFIG={
+        "org.openedx.templates.fetch.requested.v1": {
+            "pipeline": [
+                "course_templates.pipeline.GithubTemplatesPipeline",
+            ],
+            "fail_silently": False,
         },
-    )
+    },
+)
 class TestPipelineStepDefinition(TestCase):
     """
-    Test pipeline step definition for the hooks execution mechanism.
+    Test cases for pipeline step definitions in the Open edX filters.
+    These tests cover scenarios for fetching course templates from GitHub.
     """
 
     @patch('course_templates.pipeline.requests.get')
     def test_github_template_no_url(self, mock_get):
         """
-        Test fetching if not url is passed.
+        Test that an error is returned if no source URL is provided.
         """
         expected_result = {"error": "Source URL not provided", "status": 400}
         result = CourseTemplateRequested.run_filter(
@@ -44,6 +46,7 @@ class TestPipelineStepDefinition(TestCase):
     def test_github_template_fetch(self, mock_get):
         """
         Test successful fetching of templates from GitHub.
+        Verifies that a valid JSON response from the GitHub API is parsed correctly.
         """
         expected_result = b"""[
                         {
@@ -89,7 +92,7 @@ class TestPipelineStepDefinition(TestCase):
     @patch('course_templates.pipeline.requests.get')
     def test_github_template_fetch_empty_data(self, mock_get):
         """
-        Test fetching of templates pipeline from GitHub.
+        Test that an empty JSON response from GitHub is handled correctly.
         """
         expected_result = b"""[]"""
         decoded_result = expected_result.decode('utf-8')
@@ -107,12 +110,12 @@ class TestPipelineStepDefinition(TestCase):
             **{'source_config': "https://no_data.json"}
         )
 
-        self.assertEqual(result['source_config'],[])
+        self.assertEqual(result['source_config'], [])
 
     @patch('course_templates.pipeline.requests.get')
     def test_github_template_fetch_invalid_url(self, mock_get):
         """
-        Test fetching of templates pipeline from GitHub.
+        Test that an error is returned when the GitHub API responds with a non-200 status code.
         """
         expected_result = b"""[]"""
         decoded_result = expected_result.decode('utf-8')
@@ -130,4 +133,3 @@ class TestPipelineStepDefinition(TestCase):
             **{'source_config': "https://404.json"}
         )
         self.assertEqual(result['source_config']['error'], "Error fetching: Failed to fetch from URL. Status code: 404")
-
